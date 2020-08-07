@@ -6,7 +6,7 @@
 #define RESIZER_IMGRESIZER_H
 #include <iostream>
 #include <regex>
-#include <filesystem>
+//#include <filesystem>
 #include <vector>
 #include <future>
 #include <chrono>
@@ -14,12 +14,15 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <boost/program_options.hpp>
+#include <boost/filesystem.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+
 #include "nlohmann/json.hpp"
 #define CROP_PARAM 4
 #define RESIZE_PARAM 2
 using namespace boost::program_options;
-namespace fs = std::filesystem;
+
+namespace fs = boost::filesystem;
 using namespace cv;
 
 class ImgResizer {

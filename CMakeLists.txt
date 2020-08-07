@@ -8,7 +8,7 @@ SET(Boost_USE_STATIC_LIBS ON)
 #set(OpenCV_STATIC ON)
 
 find_package( OpenCV REQUIRED )
-find_package(Boost  COMPONENTS program_options REQUIRED)
+find_package(Boost  COMPONENTS program_options filesystem REQUIRED)
 
 include_directories(include ${Boost_INCLUDE_DIRS})
 add_executable(Resizer main.cpp include/ArgParser.h ImgResizer.cpp

@@ -12,15 +12,15 @@ ImgResizer::ImgResizer(std::shared_ptr<variables_map> vm) {
     m_decode_vm(vm);
 }
 
-void ImgResizer::img_batch_dir(const std::string &path) {
+void ImgResizer::img_batch_dir(const std::string &pathName) {
 
     std::vector<std::future<int>> parallel;
     auto start = std::chrono::steady_clock::now();
-    for (const auto & entry : fs::directory_iterator(path))
+    boost::filesystem::path pathDir{pathName};
+    for(auto & p : boost::filesystem::directory_iterator( pathDir ))
     {
-        if (std::regex_match(entry.path().c_str(), *img_regex))
-            parallel.push_back(std::async(decode_img,entry.path(), dest_dir,crop_size, img_size));
-//            decode_img(entry.path());
+        if (std::regex_match(p.path().string(), *img_regex))
+            parallel.push_back(std::async(decode_img,p.path().string(), dest_dir,crop_size, img_size));
     }
     for (auto& action:tqdm::tqdm(parallel)) {
         action.get();
@@ -48,9 +48,13 @@ int ImgResizer::decode_img(const std::string &filename, const std::string& dest_
         image = dst;
     }
 //    imwrite(dest_dir/)
+//    auto output_file = fs::path(dest_dir);
+//    output_file /= fs::path(filename).filename();
     auto output_file = fs::path(dest_dir);
     output_file /= fs::path(filename).filename();
-    imwrite(output_file, image);
+
+
+    imwrite(output_file.string(), image);
     return filename.length();
 }
 
