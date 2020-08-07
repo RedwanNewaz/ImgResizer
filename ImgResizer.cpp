@@ -148,7 +148,7 @@ void ImgResizer::config_file_reader(const std::string &filename) {
     {
         std::string batch_dir;
         nlohmann::from_json(j["batch_dir"], batch_dir);
-        std::cout<<"[batch_dir]: "<<dest_dir<<"\n";
+        std::cout<<"[batch_dir]: "<<batch_dir<<"\n";
         img_batch_dir(batch_dir);
     }
     else
