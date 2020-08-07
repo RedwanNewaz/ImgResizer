@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.1)
 project(Resizer)
 set(CMAKE_CXX_STANDARD 17)
 #SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
