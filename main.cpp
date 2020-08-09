@@ -8,8 +8,8 @@ int main(int argc, char *argv[]) {
     options_description desc{"Options"};
     desc.add_options()
             ("help,h", "Help screen")
-            ("size", value<std::string>(), "size =(widthxheight)")
-            ("crop",value<std::string>(), "rect =(originXxoriginYxwidthxheight")
+            ("size", value<std::string>(), "size = widthxheight e.g., 300x300 ")
+            ("crop",value<std::string>(), "rect = X0xY0xwidthxheight , e.g., 0x0x300x300 ")
             ("hjoin",value<std::string>(), "folder name for horizontal concatenation")
             ("vjoin", value<std::string>(), "folder name for vertical concatenation")
             ("dest", value<std::string>()->default_value("./"), "destination folder")
