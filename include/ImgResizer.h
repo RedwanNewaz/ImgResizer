@@ -6,10 +6,12 @@
 #define RESIZER_IMGRESIZER_H
 #include <iostream>
 #include <regex>
-//#include <filesystem>
+#include <algorithm>
 #include <vector>
 #include <future>
+#include <functional>
 #include <chrono>
+#include <cassert>
 #include <fstream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -25,8 +27,13 @@ using namespace boost::program_options;
 namespace fs = boost::filesystem;
 using namespace cv;
 
-class ImgResizer {
 
+class ImgResizer {
+    enum JOIN_TYPE{
+        HORIZONTAL,
+        VERTICAL,
+        SINGLE
+    };
 public:
     ImgResizer(std::shared_ptr<variables_map> vm);
     void img_batch_dir(const std::string& path);
@@ -36,10 +43,14 @@ public:
 private:
     std::unique_ptr<std::regex>img_regex, img_size_regex, crop_size_regex;
     std::vector<int>crop_size, img_size;
-    std::string config, dest_dir;
+    std::string config, dest_dir, join_dir;
+    JOIN_TYPE concate_img;
 protected:
-    static int decode_img(const std::string& filename, const std::string& dest_dir,
+    static void decode_img(const std::string& filename, const std::string& dest_dir,
                           const std::vector<int>&crop_size_, const std::vector<int>& img_size);
+    static void join_img(const std::string& path_from, const std::string& path_join,
+                         const std::string& dest_dir, const JOIN_TYPE& type,
+                         const std::vector<int>&crop_size_, const std::vector<int>& img_size);
     void m_decode_vm(std::shared_ptr<variables_map>& vm);
     std::vector<int> m_get_digits(std::string& string_to_split);
 

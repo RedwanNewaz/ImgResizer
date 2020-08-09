@@ -4,13 +4,14 @@
 int main(int argc, char *argv[]) {
 
     std::cout << "Resizer Initilize" << std::endl;
-    ArgParser argParser;
-    OPTION opt = argParser.parse_args(argc, argv);
+
     options_description desc{"Options"};
     desc.add_options()
             ("help,h", "Help screen")
             ("size", value<std::string>(), "size =(widthxheight)")
             ("crop",value<std::string>(), "rect =(originXxoriginYxwidthxheight")
+            ("hjoin",value<std::string>(), "folder name for horizontal concatenation")
+            ("vjoin", value<std::string>(), "folder name for vertical concatenation")
             ("dest", value<std::string>()->default_value("./"), "destination folder")
             ("conf", value<std::string>(), "JSON configuration file");
 
@@ -19,7 +20,8 @@ int main(int argc, char *argv[]) {
     notify(*vm);
 
     ImgResizer resizer(vm);
-
+    ArgParser argParser;
+    OPTION opt = argParser.parse_args(argc, argv);
     switch (opt) {
         case IMG_DIR: resizer.img_batch_dir(argv[1]);break;
         case IMG_FILE: resizer.decode_single_img(argv[1]);break;
