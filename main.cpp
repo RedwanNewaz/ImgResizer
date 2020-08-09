@@ -18,6 +18,11 @@ int main(int argc, char *argv[]) {
     std::shared_ptr<variables_map> vm = std::make_shared<variables_map>();
     store(parse_command_line(argc, argv, desc), *vm);
     notify(*vm);
+    if(vm->count("help"))
+    {
+        std::cout<<desc<<std::endl;
+        return 0;
+    }
 
     ImgResizer resizer(vm);
     ArgParser argParser;
