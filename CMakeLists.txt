@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(Resizer)
+project(BatchResizer)
 set(CMAKE_CXX_STANDARD 17)
 #SET(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 #SET(BUILD_SHARED_LIBS OFF)
@@ -11,7 +11,7 @@ find_package( OpenCV REQUIRED )
 find_package(Boost  COMPONENTS program_options filesystem REQUIRED)
 
 include_directories(include ${Boost_INCLUDE_DIRS})
-add_executable(Resizer main.cpp
+add_executable(${PROJECT_NAME} main.cpp
         include/ArgParser.h
         ImgResizer.cpp
         include/FileManager.h

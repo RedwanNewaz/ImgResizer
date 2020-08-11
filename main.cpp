@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[]) {
     assert(argc>1 && "Folder direcotry is required");
-    std::cout << "Gpu Resizer Initialize!" << std::endl;
+    std::cout << "CPU Resizer is Initialize!" << std::endl;
     ArgParser parser(argc, argv);
     shared_ptr<FileManager> filemanager = make_shared<FileManager>();
     ImgResizer imgResizer(filemanager->getPtr());
@@ -17,8 +17,6 @@ int main(int argc, char *argv[]) {
         imgResizer(resize_param);
         imgResizer(crop_param);
         imgResizer.execute();
-
-
     }
     return 0;
 }
