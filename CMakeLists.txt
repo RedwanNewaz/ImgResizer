@@ -11,8 +11,12 @@ find_package( OpenCV REQUIRED )
 find_package(Boost  COMPONENTS program_options filesystem REQUIRED)
 
 include_directories(include ${Boost_INCLUDE_DIRS})
-add_executable(Resizer main.cpp include/ArgParser.h ImgResizer.cpp
-        include/ImgResizer.h)
+add_executable(Resizer main.cpp
+        include/ArgParser.h
+        ImgResizer.cpp
+        include/FileManager.h
+        FileManager.cpp
+        include/ImgResizer.h include/CoreOperations.h)
 target_link_libraries(${PROJECT_NAME}
         ${Boost_LIBRARIES}
         ${OpenCV_LIBS}

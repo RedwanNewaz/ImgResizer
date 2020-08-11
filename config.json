@@ -1,7 +1,7 @@
 {
   "batch_dir": "/home/redwan/PycharmProjects/PedestrianFusion/results/ssd",
   "dest": "output",
-  "crop": "300x0x300x300",
-  "vjoin": "output"
+  "size": "300x300",
+  "crop": "300x0x300x300"
 
 }
