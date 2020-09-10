@@ -28,18 +28,30 @@ protected:
     static void resize(const vector<int>& resize_param_, const vector<int>& crop_param_,
                        const string& src, const string& dest)
     {
-        auto img = cv::imread(src);
+        try {
+            auto img = cv::imread(src);
 
-        cv::resize(img,img,cv::Size(resize_param_[0], resize_param_[1]));
-        cv::imwrite(dest, img);
+            cv::resize(img,img,cv::Size(resize_param_[0], resize_param_[1]));
+            cv::imwrite(dest, img);
+        }
+        catch (std::exception& e) {
+            std::cerr << e.what()  << " [file]: "<< src <<"\n";
+        }
+
     }
     static void crop(const vector<int>& resize_param_, const vector<int>& crop_param_,
                      const string& src, const string& dest)
     {
-        auto img = cv::imread(src);
-        cv::Rect roi(crop_param_[0], crop_param_[1], crop_param_[2], crop_param_[3]);
-        img = img(roi);
-        cv::imwrite(dest, img);
+        try {
+            auto img = cv::imread(src);
+            cv::Rect roi(crop_param_[0], crop_param_[1], crop_param_[2], crop_param_[3]);
+            img = img(roi);
+            cv::imwrite(dest, img);
+        }
+        catch (std::exception& e) {
+            std::cerr << e.what()  << " [file]: "<< src <<"\n";
+        }
+
     }
 
     static void join(const string& src, const string& dest, const JOIN_TYPE& type)
