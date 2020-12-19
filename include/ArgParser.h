@@ -15,7 +15,7 @@ class ArgParser
 {
 public:
     ArgParser(int argc, char *argv[]);
-    bool operator()(const string& arg1, const FileManagerPtr& fileManager);
+    bool operator()(const FileManagerPtr& fileManager);
     std::string size, crop;
 private:
     unique_ptr<variables_map> vm;
@@ -30,6 +30,7 @@ ArgParser::ArgParser(int argc, char **argv) {
     desc = std::make_unique<options_description>("Options");
     desc->add_options()
             ("help,h", "Help screen")
+            ("batch_dir", value<std::string>()->default_value("./"), "input folder")
             ("size", value<std::string>(), "size = widthxheight e.g., 300x300 ")
             ("crop",value<std::string>(), "rect = X0xY0xwidthxheight , e.g., 0x0x300x300 ")
             ("hjoin",value<std::string>(), "folder name for horizontal concatenation")
@@ -41,18 +42,26 @@ ArgParser::ArgParser(int argc, char **argv) {
     notify(*vm);
 }
 
-bool ArgParser::operator()(const string& arg1, const FileManagerPtr& fileManager) {
+bool ArgParser::operator()(const FileManagerPtr& fileManager) {
 
     if(vm->count("help"))
     {
         std::cout<<*desc<<std::endl;
         return false;
     }
-    if(fileManager->is_json_file(arg1))
+    string src_dir;
+    auto vms = *vm.get();
+
+     if(vm->count("batch_dir"))
     {
-        mf_read_configFile(arg1, fileManager);
+        src_dir = vms["batch_dir"].as<std::string>();
     }
-    else if( fs::is_directory(fs::path{arg1}))
+
+    if(fileManager->is_json_file(src_dir))
+    {
+        mf_read_configFile(src_dir, fileManager);
+    }
+    else if( fs::is_directory(fs::path{src_dir}))
     {
         mf_read_arguments(fileManager);
     }
@@ -63,9 +72,16 @@ bool ArgParser::operator()(const string& arg1, const FileManagerPtr& fileManager
 }
 
 void ArgParser::mf_read_arguments(const FileManagerPtr& fileManager) {
-    string src_dir, dest_dir, join_dir;
+    string  src_dir, dest_dir, join_dir;
     auto vms = *vm.get();
     int join_type = 0;
+
+    if(vm->count("batch_dir"))
+    {
+        src_dir = vms["batch_dir"].as<std::string>();
+        std::cout<<"[batch_dir]: "<<src_dir<<"\n";
+    }
+
 
     if (vm->count("size"))
     {

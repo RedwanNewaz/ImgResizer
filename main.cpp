@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
     ArgParser parser(argc, argv);
     shared_ptr<FileManager> filemanager = make_shared<FileManager>();
     ImgResizer imgResizer(filemanager->getPtr());
-    if(parser(argv[1],filemanager->getPtr()))
+    if(parser(filemanager->getPtr()))
     {
         auto files = filemanager->filemap;
         vector<int> resize_param, crop_param;
